@@ -4,7 +4,7 @@
 |--------------|--------------------------------------------------------------|
 | Email | [jason.debacker@moore.sc.edu](mailto:jason.debacker@moore.sc.edu) |
 | Office | 427B DMSB |
-| Office Hours | Tuesday 2:45-4:45pm and Thursday 12:30-1:20pm; or by appointment |
+| Office Hours | ** On Zoom ** Tuesday 2:45-4:45pm and Thursday 12:30-1:20pm; or by appointment |
 | GitHub | [jdebacker](https://github.com/jdebacker) |
 
 * **Meeting day/time**: T,Th 10:05-11:20am, DMSB, Room 120
