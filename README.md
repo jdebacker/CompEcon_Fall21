@@ -9,6 +9,14 @@
 
 * **Meeting day/time**: T,Th 10:05-11:20am, DMSB, Room 120
 
+## Office Hour Zoom Info ##
+Join Zoom Meeting
+https://moore-sc-edu.zoom.us/j/96470982218
+
+Meeting ID: 964 7098 2218
+One tap mobile
++13126266799,,96470982218# US (Chicago)
++16465588656,,96470982218# US (New York)
 
 
 ## Course description ##
