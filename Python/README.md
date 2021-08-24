@@ -2,6 +2,22 @@
 This module of the course introduces you to the basics of programming in Python, with the focus on those features more relevant to data analysis and scientific computing, areas most likely to be utilized in economic research.
 
 
+## 0. How to run Python
+1. Jupyter Notebook
+   * Jupyter Notebook
+     * Open from command window with `jupyter notebook`
+     * It opens in a browser
+   * Jupyter Lab
+    * Open from command window with `jupyter lab`
+    * Similar to notebook, but maybe better interface
+   * Google Colab
+     * launch notebook at `colab.research.google.com`
+2. iPython
+  * Launch with `ipython` from command window
+3. Calling Python from the terminal/command window
+   * Write code in a text editor, save a a `*.py` file
+   * Execute from the command line with `python filename.py`
+
 ## 1. Chapters from Brigham Young University's Math Department's Applied and Computational Math Emphasis (ACME) program (Humpherys, Jeffrey, "Computational Labs for Foundations of Applied Mathematics" (2017)):
 * [Standard Library](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_StandardLibrary.pdf)
 * [Object Oriented Programming](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_ObjectOriented.pdf)
