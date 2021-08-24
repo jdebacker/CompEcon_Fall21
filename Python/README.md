@@ -3,18 +3,18 @@ This module of the course introduces you to the basics of programming in Python,
 
 
 ## 1. Chapters from Brigham Young University's Math Department's Applied and Computational Math Emphasis (ACME) program (Humpherys, Jeffrey, "Computational Labs for Foundations of Applied Mathematics" (2017)):
-* [Standard Library](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_StandardLibrary.pdf)
-* [Object Oriented Programming](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_ObjectOriented.pdf)
-* [Introduction to Numpy](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_NumpyIntro.pdf)
-* Pandas Labs: [1](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_Pandas1.pdf), [2](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_Pandas2.pdf), [3](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_Pandas3.pdf), [4](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/ACME_Pandas4.pdf)
+* [Standard Library](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_StandardLibrary.pdf)
+* [Object Oriented Programming](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_ObjectOriented.pdf)
+* [Introduction to Numpy](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_NumpyIntro.pdf)
+* Pandas Labs: [1](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_Pandas1.pdf), [2](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_Pandas2.pdf), [3](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_Pandas3.pdf), [4](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/ACME_Pandas4.pdf)
 
 
 ## 2. Jupyter Notebook tutorials to get you started:
-* [Numpy and Pandas](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/PythonNumpyPandas.ipynb)
-* [Describing Data in Pandas](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/PythonDescribe.ipynb)
-* [Reading in Data](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/PythonReadIn.ipynb)
-* [Reshaping Data](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/PythonReshape.ipynb)
-* [Writing Functions in Python](https://github.com/jdebacker/CompEcon_Fall19/blob/master/Python/PythonFuncs.ipynb)
+* [Numpy and Pandas](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/PythonNumpyPandas.ipynb)
+* [Describing Data in Pandas](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/PythonDescribe.ipynb)
+* [Reading in Data](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/PythonReadIn.ipynb)
+* [Reshaping Data](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/PythonReshape.ipynb)
+* [Writing Functions in Python](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Python/PythonFuncs.ipynb)
 
 
 ## 3. Useful Links
