@@ -1,0 +1,27 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdftex 2021.8.26)  31 AUG 2021 09:44
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**bibliography.bib
+(./bibliography.bib
+Overfull \hbox (32.80159pt too wide) in paragraph at lines 1--29
+\tenrm Economists Jour-nal - Re-vista Tiner-ilor Economists, vol-ume=15, num-be
+r=30, year=2018  @ar-ti-cle-fuwa2007pathways,|
+
+\hbox(6.94444+1.94444)x469.75499, glue set - 1.0
+.\tenrm E
+.\tenrm c
+.\tenrm o
+.\tenrm n
+.\tenrm o
+.etc.
+
+)
+*
+! Emergency stop.
+<*> bibliography.bib
+                    
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!
