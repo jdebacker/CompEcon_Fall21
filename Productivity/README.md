@@ -56,10 +56,12 @@ I have included a tutorial on using [Git and GitHub.com](https://github.com/jdeb
 | Functionality                                               | Git Command                                                      |
 |-------------------------------------------------------------|------------------------------------------------------------------|
 | See active branch and uncommitted changes for tracked files | `git status -uno`                                                  |
+| See branches (with note about active branch)                | `git branch`                                                  |
 | Change branch                                               | `git checkout <branch name>`                                       |
 | Create new branch and change to it                          | `git checkout -b <new branch name>`                                |
 | Track file or latest changes to file                        | `git add <filename>`                                               |
 | Commit changes to branch                                    | `git commit -m "message describing changes" `                      |
+| Stash changes (ignore them from history)                    | `git stash <filename> `                      |
 | Push committed changes to remote branch                     | `git push origin <branch name>`                                |
 | Merge changes from master into development branch           | `(change working branch to master, then…) git merge <branch name>` |
 | Merge changes from development branch into master           | (change to development branch, then…) `git merge master`           |
