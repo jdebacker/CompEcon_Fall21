@@ -8,13 +8,14 @@ This module of the course covers data visualization tools.  We'll learn these to
 
 ## 1. Notebooks we worked through in class
 
-* [Static Visualizations](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Visualization/StaticVisualization.ipynb)
-* [Dynamic Visualizations](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Visualization/DynamicVisualization.ipynb)
+* [Static Visualizations](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Visualization/StaticVisualization.ipynb)
+* [Dynamic Visualizations](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Visualization/DynamicVisualization.ipynb)
+* [Visualizations in Plotly](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Visualization/PlotlyExpress_Viz.ipynb)
 
 ## 2. Tutorials
-* [ACME Lab on Visualization in Python](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Visualization/Vol1A-DataVisualization-2016.pdf)
-* [ACME Lab on Bokeh](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Visualization/Vol3A-Bokeh-2016.pdf)
-* [Rick Evans' visualization notebook](https://github.com/jdebacker/CompEcon_Fall21/blob/master/Visualization/PythonVisualize.ipynb)
+* [ACME Lab on Visualization in Python](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Visualization/Vol1A-DataVisualization-2016.pdf)
+* [ACME Lab on Bokeh](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Visualization/Vol3A-Bokeh-2016.pdf)
+* [Rick Evans' visualization notebook](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Visualization/PythonVisualize.ipynb)
 
 ## 3. Useful Links
 
