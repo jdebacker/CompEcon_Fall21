@@ -84,17 +84,17 @@ Class Participation                |   10   |    10.0%   |
 | Aug. 26  | Th  | Python/OOP                          |   |
 | Aug. 31  | T   | Python/OOP                          |   PS #1     |
 | Sept. 2  | Th  | Python/OOP |        |
-| Sept. 7 | T   | Numerical Optimization Theory |   |
-| Sept. 9 | Th  |  Numerical Optimization Theory  | PS #2      |
-| Sept. 14 | T   | Optimizers, Root-Finders in Python |        |
-| Sept. 16 | Th  | Optimization Application: GMM                 |        |
-| Sept. 21 | T   | Conditionals/Loops                   |   |
-| Sept. 23 | Th  | Two-Sided Matching Models                  |        |
-| Sept. 28   | T   | Conditionals/Loops Application: Maximum Score Estimators                       |  PS #3      |
-| Sept. 30   | Th  | Vizualization        |   |
+| Sept. 7   | Th  | Visualization        |   |
+| Sept. 9 | T   | Numerical Optimization Theory | PS #2   |
+| Sept. 14 | Th  |  Numerical Optimization Theory  |      |
+| Sept. 16 | T   | Optimizers, Root-Finders in Python |  PS #3      |
+| Sept. 21 | Th  | Optimization Application: GMM                 |        |
+| Sept. 23 | T   | Conditionals/Loops                   |   |
+| Sept. 28 | Th  | Two-Sided Matching Models                  |        |
+| Sept. 30   | T   | Conditionals/Loops Application: Maximum Score Estimators                       |  PS #4      |
 | Oct. 5   | T   | Econometrics in Python and R        |        |
 | Oct. 7  | Th  | No class, Fall Break                |        |
-| Oct. 12  | T   | Econometrics in Python and R        | PS #4  |
+| Oct. 12  | T   | Econometrics in Python and R        | |
 | Oct. 14  | Th  | Machine Learning     |        |
 | Oct. 19  | T   | Machine Learning     |        |
 | Oct. 21  | Th  | Machine Learning     |  |
