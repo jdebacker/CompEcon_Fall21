@@ -146,6 +146,7 @@ When you are done with a Jupyter notebook, you first save any changes that you w
 * [Code and Data for the Social Sciences](http://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
 * [LaTeX math symbols](http://web.ift.uib.no/Teori/KURS/WRK/TeX/symALL.html)
 * [Typesetting equations in TeX](http://moser-isi.ethz.ch/docs/typeset_equations.pdf)
+* [Good template for slides in TeX](https://github.com/kylebutts/templates/tree/master/latex-slides)
 * [Pimp my Editor](http://slides.com/nicklang/pimp-my-editor#/) (Sublime Text focused, but may similar plug-ins/features available in Atom)
 * [Unix commands](https://en.wikipedia.org/wiki/List_of_Unix_commands)
 * [DOS commands](https://en.wikipedia.org/wiki/List_of_DOS_commands)
