@@ -4,7 +4,7 @@ This module of the course covers numerical optimization methods and applies them
 ## 1. Tutorials to get you started
 
 * [Rootfinders and Minimizers in Python](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Optimization/PythonRootMin.ipynb)
-* [Optimization in Python](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Optimization/Optimize.ipynb)
+* [Optimization in Python](https://github.com/jdebacker/CompEcon_Fall21/blob/main/Optimization/Optimization.ipynb)
 
 ## 2. Problem Set
 
