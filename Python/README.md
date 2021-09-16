@@ -42,3 +42,6 @@ This module of the course introduces you to the basics of programming in Python,
 * [Pandas guides](http://tomaugspurger.github.io/archives.html)
 * [PEP8 Style Guide](https://www.python.org/dev/peps/pep-0008/)
 * [I Don't Like Notebooks](https://t.co/30peBFwTbv) by [Joel Grus](https://joelgrus.com)
+
+## 5. Solutions to PS2
+* In [this Colab Notebook](https://colab.research.google.com/drive/1q_TSSzNx9toINtB5-94eOQkY9aVtU4Eu?usp=sharing)
