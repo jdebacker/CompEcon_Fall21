@@ -51,3 +51,4 @@ R:
   * [The R GGPlot Gallery](http://www.r-graph-gallery.com/portfolio/ggplot2-package/)
 * General
   * Gentzkow and Shaprio, [Code and Data for the Social Sciences: A Practitioner's Guide](http://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
+  * *Causal Inference: The Mixtape*, [code for examples in R and Python](https://github.com/scunning1975/mixtape)
