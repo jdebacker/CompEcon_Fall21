@@ -1,0 +1,81 @@
+\documentclass[a4paper]{article}
+\oddsidemargin 0.0in \textwidth 6.5in \topmargin -0.1in \textheight
+9.0in
+
+% package to have clickable website links
+%\usepackage[pdftex]{hyperref}
+\usepackage{hyperref}
+\hypersetup{colorlinks,%
+citecolor=red,%
+filecolor=red,%
+linkcolor=red,%
+urlcolor=blue,%
+pdftex}
+
+% page numbers
+\pagenumbering{arabic}
+\usepackage{amsmath}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+% images
+\usepackage{graphicx}
+
+\usepackage{ae}
+\usepackage[T1]{fontenc}
+%Define how sections should be laid out
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{12}
+{0mm} % Einzug
+{.5\baselineskip} % Vorabstand
+{0.2\baselineskip} % Nachabstand
+{\large \scshape{\vspace{0.3\baselineskip}}}}
+%{\bfseries \scshape \large{\vspace{0.3\baselineskip}}}}
+\makeatother
+
+\begin{document}
+\begin{center}
+\Large{Example of reading output into Tex doc}\\
+\normalsize
+ECON 833, Prof. Jason DeBacker \\
+\end{center}
+
+
+
+\ \\
+
+Some text here\dots
+
+\section{Tables}
+
+More text about tables\dots \\
+\ \\
+
+\input{IVresults}
+
+\ \\
+
+
+Table of summary stats from DataFrame: \\
+
+\begin{table}
+\centering
+\input{summ_stats}
+\end{table}
+
+
+\section{Figures}
+
+Even more text with figures...
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{fitted_values.png}
+    \caption{A Figure of Results}
+\end{figure}
+
+
+
+\end{document}
