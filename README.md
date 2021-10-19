@@ -89,18 +89,18 @@ Class Participation                |   10   |    10.0%   |
 | Sept. 14 | T  |  Numerical Optimization Theory  |      |
 | Sept. 16 | Th   | Optimizers, Root-Finders in Python |       |
 | Sept. 21 | T  | Optimization Application: GMM        |   PS #3     |
-| Sept. 23 | Th   | Conditionals/Loops                   |   |
-| Sept. 28 | T  | Two-Sided Matching Models                  |        |
-| Sept. 30   | Th   | Conditionals/Loops Application: Maximum Score Estimators                       |  PS #4      |
-| Oct. 5   | T   | Econometrics in Python and R        |        |
+| Sept. 23 | Th   |    Two-Sided Matching Models                |   |
+| Sept. 28 | T  | Maximum Score Estimators                  |        |
+| Sept. 30   | Th   | Maximum Score Estimators                       |      |
+| Oct. 5   | T   | Conditionals and Loops         |        |
 | Oct. 7  | Th  | No class, Fall Break                |        |
-| Oct. 12  | T   | Econometrics in Python and R        | |
-| Oct. 14  | Th  | Machine Learning     |        |
-| Oct. 19  | T   | Machine Learning     |        |
+| Oct. 12  | T   | Econometrics in Python       | |
+| Oct. 14  | Th  | Programming in R     |        |
+| Oct. 19  | T   | Machine Learning     |   PS #4     |
 | Oct. 21  | Th  | Machine Learning     |  |
-| Oct. 26  | T   | Dynamic Programming                 |  PS #5      |
+| Oct. 26  | T   | Machine Learning                 |        |
 | Oct. 28  | Th  | Dynamic Programming                 |        |
-| Nov. 2   | T   | Markov Chains                       |   |
+| Nov. 2   | T   | Dynamic Programming                       | PS #5  |
 | Nov. 9   | Th  | Discrete Choice Dynamic Programming |        |
 | Nov. 11  | T   | Computational Approaches to DPPs     | PS #6      |
 | Nov. 16  | Th  | Multiprocessing                     |        |
