@@ -1,10 +1,10 @@
-import numpy as np
+#import numpy as np
 import pandas as pd
-from scipy.optimize import minimize
+#from scipy.optimize import minimize
 from geopy.distance import geodesic
 from scipy.optimize import differential_evolution
 
-df = pd.read_csv("radio_merger_data.csv")
+df = pd.read_csv(r"C:\Users\haimiti.aerfate\Desktop\radio_merger_data.csv")
 
 ##################################################################
 ###Reconstruct the data###
@@ -27,8 +27,8 @@ def counterfactual_df_of_year(x, year, buyer_colnames, target_colnames):
     '''
     x= x[(x.year==year)].reset_index()
     a=[]
-    for i in range(len(x["buyer_id"])-1):
-        for j in range(i+1,len(x["buyer_id"])):
+    for i in range(len(x["buyer_id"])):
+        for j in range(len(x["buyer_id"])):
             if i!= j:
                 aa=x[buyer_colnames].iloc[i].values.tolist() + x[target_colnames].iloc[j].values.tolist()
                 a.append(aa)
@@ -56,8 +56,9 @@ def distances_of_year(x,year):
 
 ##################################################################
 ###Model 1 function###
-#def Model1(df07, df_c07, df08, df_c08):
-def Model1(df07, df08, df_c07, df_c08):
+def Model1(num_stations_buyer, population_target, corp_owner_buyer, distance,
+           num_stations_buyer_c, population_target_c, corp_owner_buyer_c, distance_c):
+
     def payoff(parms):
         '''
         create a function that calculate the parameter of model 1
@@ -71,41 +72,27 @@ def Model1(df07, df08, df_c07, df_c08):
         '''
         alpha, beta = parms
         
-        f07 = df07['num_stations_buyer']*df07['population_target'] + alpha * df07['corp_owner_buyer'] * df07['population_target'] + beta *df07['distance']
-        f08 = df08['num_stations_buyer']*df08['population_target'] + alpha * df08['corp_owner_buyer'] * df08['population_target'] + beta *df08['distance']
-           
-        f_count07 = df_c07['num_stations_buyer']*df_c07['population_target'] + alpha * df_c07['corp_owner_buyer'] * df_c07['population_target'] + beta *df_c07['distance']
-        f_count08 = df_c08['num_stations_buyer']*df_c08['population_target'] + alpha * df_c08['corp_owner_buyer'] * df_c08['population_target'] + beta *df_c08['distance']
-
-        a07=[]
-        for i in len(df07[df07.buyer_id <= 989]):
-            for j in len(df07[df07.buyer_id <= 989]):
-                if i==j & f07 > f_count07:
-                    a= 1
-                    a07.append(a)      
-        a08=[]
-        for i in len(df08[df08.buyer_id >= 989]):
-            for j in len(df08[df08.buyer_id >= 989]):
-                if i==j & f08 > f_count08:
-                    a= 1
-                    a08.append(a)        
+        f = num_stations_buyer*population_target + alpha * corp_owner_buyer * population_target + beta *distance
         
-        joinedlist = a07 + a08
+        f_count = num_stations_buyer_c*population_target_c + alpha * corp_owner_buyer_c * population_target_c + beta *distance_c
+        
+        score = (f >= f_count)
+        
         #
-        neg_total_score = -joinedlist.sum()
+        neg_total_score = -score.sum()
         return neg_total_score
     
     #Initial Guess
-    guess = (0.5, 0.5)
-    #set_bound = [(-0.5, 0.5),(-0.5, 0.5)]
+    set_bound = [(-1,1),(-1,1)]
     #calculate the parameter estimates
-    #parm_estimates = differential_evolution(payoff, set_bound)
-    parm_estimates = minimize(payoff, guess, method = 'Nelder-Mead', options = {'maxiter': 5000})
+    parm_estimates = differential_evolution(payoff, set_bound)
     return parm_estimates
 
 
 ###Model 2 function###
-def Model2(df07, df08, df_c07, df_c08):
+def Model2(num_stations_buyer, population_target, corp_owner_buyer, distance, hhi_target, price_mil,
+           num_stations_buyer_c, population_target_c, corp_owner_buyer_c, distance_c, hhi_target_c, price_mil_c):
+
     def payoff(parms):
         '''
         create a function that calculate the parameter of model 2
@@ -119,36 +106,22 @@ def Model2(df07, df08, df_c07, df_c08):
         f (b,t) + pbt -  ≥ f(b, tdot) - pb,tdot
         '''
         delta, alpha, gamma, beta = parms
-     
-        f07 = delta * df07['num_stations_buyer']*df07['population_target'] + alpha * df07['corp_owner_buyer'] * df07['population_target'] + gamma *df07['hhi_target'] + beta *df07['distance'] + df07['price_mil']
-        f08 = delta * df08['num_stations_buyer']*df08['population_target'] + alpha * df08['corp_owner_buyer'] * df08['population_target'] + gamma *df08['hhi_target'] + beta *df08['distance'] + df08['price_mil']
+
+        f = delta * num_stations_buyer * population_target + alpha * corp_owner_buyer * population_target + gamma * hhi_target + beta *distance + price_mil
         
-        f_count07 = delta * df_c07['num_stations_buyer']*df_c07['population_target'] + alpha * df_c07['corp_owner_buyer'] * df_c07['population_target'] + gamma *df_c07['hhi_target'] + beta *df_c07['distance'] + df_c07['price_mil']
-        f_count08 = delta * df_c08['num_stations_buyer']*df_c08['population_target'] + alpha * df_c08['corp_owner_buyer'] * df_c08['population_target'] + gamma *df_c08['hhi_target'] + beta *df_c08['distance'] + df_c08['price_mil']
-      
-        a07=[]
-        for i in len(df07[df07.buyer_id <= 989]):
-            for j in len(df07[df07.buyer_id <= 989]):
-                if i==j & f07 > f_count07:
-                    a= 1
-                    a07.append(a)      
-        a08=[]
-        for i in len(df08[df08.buyer_id >= 989]):
-            for j in len(df08[df08.buyer_id >= 989]):
-                if i==j & f08 > f_count08:
-                    a= 1
-                    a08.append(a)        
+        f_count = delta * num_stations_buyer_c * population_target_c + alpha * corp_owner_buyer_c * population_target_c + gamma * hhi_target_c + beta *distance_c + price_mil_c
         
-        joinedlist = a07 + a08
         #
-        neg_total_score = -joinedlist.sum()
+        score = (f >= f_count)
+        
+        #
+        neg_total_score = -score.sum()
         return neg_total_score
     
     #Initial Guess
-    guess = (0.5, 0.5, 0.5, 0.5)
+    set_bound = [(-1,1),(-1,1),(-1,1),(-1,1)]
     #calculate the parameter estimates
-    #parm_estimates = differential_evolution(payoff, set_bound)
-    parm_estimates = minimize(payoff, guess, method = 'Nelder-Mead', options = {'maxiter': 5000})
+    parm_estimates = differential_evolution(payoff, set_bound)
     return parm_estimates
 ##################################################################
 
@@ -163,28 +136,44 @@ buyer_colnames = ['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_b
 target_colnames = ['target_id', 'target_lat', 'target_long', 'price', 'price_mil', 'hhi_target', 'population_target', 'population_target_mil']
 
 #get the counterfactual df by year
-df_c2007=counterfactual_df_of_year(df, 2007, buyer_colnames, target_colnames)
-df_c2008=counterfactual_df_of_year(df, 2008, buyer_colnames, target_colnames)
+c2007=counterfactual_df_of_year(df, 2007, buyer_colnames, target_colnames)
+c2008=counterfactual_df_of_year(df, 2008, buyer_colnames, target_colnames)
 
 #Calculate distances
-df_c2007=distances_of_year(df_c2007,2007)
-df_c2008=distances_of_year(df_c2008,2008)
+c2007=distances_of_year(c2007,2007)
+c2008=distances_of_year(c2008,2008)
 
-df_c=pd.concat([df_c2007, df_c2008], axis=0).reset_index()
+df_c=pd.concat([c2007, c2008], axis=0).reset_index()
 
 df2007=distances_of_year(df,2007)
 df2008=distances_of_year(df,2008)
-df=pd.concat([df2007, df2008], axis=0).reset_index()
+df=pd.concat([c2007, c2008], axis=0).reset_index()
 ##################################################################
 
 
 ##################################################################
 #Estimate the model and get the result
 
-#Run the models
-Model1_fit=Model1(df2007, df2008, df_c2007, df_c2008)
+num_stations_buyer = df['num_stations_buyer']
+population_target = df['population_target_mil']
+hhi_target = df['hhi_target']
+corp_owner_buyer = df['corp_owner_buyer']
+distance = df['distance']
+price_mil = df['price_mil']
 
-Model2_fit=Model2(df2007, df2008, df_c2007, df_c2008)
+num_stations_buyer_c = df_c['num_stations_buyer']
+population_target_c = df_c['population_target_mil']
+hhi_target_c = df_c['hhi_target']
+corp_owner_buyer_c = df_c['corp_owner_buyer']
+distance_c = df_c['distance']
+price_mil_c = df_c['price_mil']
+
+#Run the models
+Model1_fit=Model1(num_stations_buyer, population_target, corp_owner_buyer, distance,
+           num_stations_buyer_c, population_target_c, corp_owner_buyer_c, distance_c)
+
+Model2_fit=Model2(num_stations_buyer, population_target, corp_owner_buyer, distance, hhi_target, price_mil,
+           num_stations_buyer_c, population_target_c, corp_owner_buyer_c, distance_c, hhi_target_c, price_mil_c)
 
 
 #print the parameter estimate for model 1
@@ -196,6 +185,57 @@ print('Model 1 Coefficient Estimates')
 for x, y in zip(model1_list, Model1_fit.x.tolist()):
     print(x, y, sep='\t\t')
 print(" ")
+#print the parameter estimate for model 2
 print('Model 2 Coefficient Estimates')
 for x, y in zip(model2_list, Model2_fit.x.tolist()):
     print(x, y, sep='\t\t')
+
+
+
+
+'''
+I should have put the merged actual and conterfactual dataset
+into one like this:
+dfb=pd.merge(df2008, c2008, left_on='buyer_id', right_on='buyer_id', how='left')
+   
+Unforunately, I don't have time
+
+I know my solution is incorrect, ideally i think it should look like this.
+However, it doesn't work. 
+
+def Model1(num_stations_buyer, population_target, corp_owner_buyer, distance,
+           num_stations_buyer_c, population_target_c, corp_owner_buyer_c, distance_c):
+
+    def payoff(parms):
+        ''
+        create a function that calculate the parameter of model 1
+        the inputs are the variable names, all must be in df format
+
+        Model 1:
+        f(b; t) = num_stations_buyer_bm * population_target_tm 
+                   + alpha * corp_owner_buyer_bm * population_target_tm 
+                   + beta * distancebtm + error_btm
+        f (b,t) + f (bdot, tdot)  ≥ f (bdot, t) + f(b, tdot)
+        ''
+        alpha, beta = parms
+        
+        f = num_stations_buyer*population_target + alpha * corp_owner_buyer * population_target + beta *distance
+        
+        f_count = num_stations_buyer_c*population_target_c + alpha * corp_owner_buyer_c * population_target_c + beta *distance_c
+        
+        score=[]
+        for index1, i in enumerate(corp_owner_buyer, start=0):
+            for index2, j in enumerate(corp_owner_buyer_c, start=0):
+                if i==j & f > f_count:
+                    aa= 1
+                    score.append(aa)
+        
+        neg_total_score = -(score.sum())
+        return neg_total_score
+
+    #Initial Guess
+    set_bound = [(-1,1),(-1,1)]
+    #calculate the parameter estimates
+    parm_estimates = differential_evolution(payoff, set_bound)
+    return parm_estimates
+'''
