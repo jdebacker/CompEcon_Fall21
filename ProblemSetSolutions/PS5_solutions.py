@@ -3,9 +3,11 @@ import scipy.optimize as opt
 import scipy.stats as stats
 import pandas as pd
 from geopy.distance import distance
+import os 
 
 # This section works
-df = pd.read_csv('radio_merger_data.csv')
+filepath= os.path.join("..","Matching","radio_merger_data.csv")
+df = pd.read_csv(filepath)
 
 df['scaled_pop'] = df['population_target']/1000000
 df['scaled_price'] = df['price']/1000000
