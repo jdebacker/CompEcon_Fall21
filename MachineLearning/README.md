@@ -32,6 +32,7 @@ This module of the course covers the basics of machine learning, its application
 
 * Python:
   * [Scikit-Learn](https://scikit-learn.org/stable/)
+  * [EconML](https://github.com/microsoft/EconML) (for causal inference ML methods in Python)
   * [TensorFlow](https://www.tensorflow.org)
     * [TensorFlow-Keras tutorial](https://machinelearningmastery.com/tensorflow-tutorial-deep-learning-with-tf-keras/)
 * R:
