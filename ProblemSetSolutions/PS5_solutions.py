@@ -32,6 +32,84 @@ counterfactuals['buyer_loc'] = counterfactuals[['buyer_lat', 'buyer_long']].appl
 counterfactuals['target_loc'] = counterfactuals[['target_lat', 'target_long']].apply(tuple, axis=1)
 counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
 
+
+################################################################
+#Codes in response to "PS5 solutions: make arrays of matches"
+def create_array_ids(x):
+    '''
+    Parameters
+    ----------
+    x : df07array or df07array (only put the array for a year)
+
+    Returns
+    -------
+    arraies that include actual and counterfactual year and ids
+
+    Idea
+    -------
+    Nested for loops to create combinations of buyers and targets.
+    Equation: f(b,t) + f(b',t') > f(b,t') + f(b',t)
+    array1: returns year and ids for b, t
+    array2: returns year and ids for b', t'
+    array3: returns year and ids for b, t'
+    array4: returns year and ids for b', t    
+    -------
+    '''
+    def array3(x):
+        a3=[]
+        for y in range(len(x[:,0])):
+            for i in range(len(x[:,1])):
+                    for j in range(i+1, len(x[:,1])):
+                        aa=[x[:,0][y].tolist()] + [x[:,1][i].tolist()] + [x[:,2][j].tolist()]
+                        a3.append(aa)
+            return np.array(a3)
+    a3=array3(x)         
+    
+    def array4(x):
+        a4=[]
+        for y in range(len(x[:,0])):
+            for i in range(len(x[:,1])):
+                    for j in range(i+1, len(x[:,1])):
+                        aa=[x[:,0][y].tolist()] + [x[:,1][j].tolist()] + [x[:,2][i].tolist()]
+                        a4.append(aa)
+            return np.array(a4)
+    a4=array4(x)
+    
+    def array1(a3,a4):
+        a1=[a3[:,0].tolist()] + [a3[:,1].tolist()] + [a4[:,2].tolist()]
+        a1=np.array(a1)
+        return a1
+    a1=array1(a3,a4).T
+    
+    def array2(a3,a4):
+        a2=[a3[:,0].tolist()] + [a4[:,1].tolist()] + [a3[:,2].tolist()]
+        a2=np.array(a2)
+        return a2
+    a2=array2(a3,a4).T
+    
+    all_a = np.concatenate((a1, a2, a3, a4),axis=1)
+    all_a = np.delete((all_a),[3,6,9],axis=1)
+    return all_a
+
+#set up arries for the function
+df07array=np.array(df07[['year', 'buyer_id','target_id']])
+df08array=np.array(df08[['year', 'buyer_id','target_id']])
+
+#run the function by year
+a07=create_array_ids(df07array)
+a08=create_array_ids(df08array)
+
+#array combinations of buyers and targets
+array_ids_and_years=np.concatenate((a07,a08),axis=0)
+
+#create a df so you know the column names
+column_names = ['year', 'buyer_id_bt', 'target_id_b_t', 'buyer_id_bdot_tdot', 'target_id_bdot_tdot',
+                'buyer_id_b_tdot', 'target_id_b_tdot','buyer_id_bdot_t', 'target_id_bdot_t']
+df_ids_and_years = pd.DataFrame(data = array_ids_and_years, 
+                  columns = column_names)
+################################################################
+
+
 #################################### Without transfers
 
 # I believe this section works
