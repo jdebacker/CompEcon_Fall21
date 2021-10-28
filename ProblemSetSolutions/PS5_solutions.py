@@ -12,38 +12,6 @@ print(data_dir)
 filepath= os.path.join("..", "Matching","radio_merger_data.csv")
 df = pd.read_csv(filepath)
 
-def vars(df):
-    '''
-    docstring
-    '''
-    df['scaled_pop'] = df['population_target']/1000000
-    df['scaled_price'] = df['price']/1000000
-
-    for i in range(len(df)):
-        for j in range(i+1, len(df)):
-            df['distancebt'] = df.apply(lambda row: distance(row[['buyer_lat'][i],['buyer_long'][i]], row[['target_lat'][i],['target_long'][i]]).miles, axis=1)
-            df['distancebt_'] = df.apply(lambda row: distance(row[['buyer_lat'][i],['buyer_long'][i]], row[['target_lat'][j],['target_long'][j]]).miles, axis=1)
-            '''
-            distancebt = distance((df['buyer_lat'][i], df['buyer_long'][i]), (row['target_lat'][i],row['target_long'][i])).miles
-            df.at[index, 'distancebt'] = distancebt
-            distanceb_t_ = distance((row['buyer_lat'][index + 1], row['buyer_long'][index + 1]), (row['target_lat'][index + 1],row['target_long'][index + 1])).miles
-            df.at[index, 'distanceb_t_'] = distanceb_t_
-            distanceb_t = distance((row['buyer_lat'][index + 1], row['buyer_long'][index + 1]), (row['target_lat'][index],row['target_long'][index])).miles
-            df.at[index, 'distanceb_t'] = distanceb_t
-            distancebt_ = distance((row['buyer_lat'][index], row['buyer_long'][index]), (row['target_lat'][index + 1],row['target_long'][index + 1])).miles
-            df.at[index, 'distancebt_'] = distancebt_
-            '''
-
-test = vars(df)
-
-"""
-df['scaled_pop'] = df['population_target']/1000000
-df['scaled_price'] = df['price']/1000000
-
-df['buyer_loc'] = df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
-df['target_loc'] = df[['target_lat', 'target_long']].apply(tuple, axis=1)
-df['distance_mi'] = df.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
-
 df07 = df.loc[df['year'] == 2007]
 df08 = df.loc[df['year'] == 2008]
 years = [df07, df08]
@@ -72,7 +40,7 @@ def create_array_ids(x):
     Returns
     -------
     arrays that include actual and counterfactual year and ids
-    actual ids: 
+    actual ids:
         array1: (b, t)
         array2: (b', t')
     counterfactual ids:
@@ -93,7 +61,7 @@ def create_array_ids(x):
             cc=[x[:,0][i], x[:,1][i], x[:,2][i]]
             a1 = np.append(a1, np.array([cc]), axis=0)
             dd=[x[:,0][i], x[:,1][j], x[:,2][j]]
-            a2 = np.append(a2, np.array([dd]), axis=0)        
+            a2 = np.append(a2, np.array([dd]), axis=0)
     all_a = np.concatenate((a1, a2, a3, a4),axis=1)
     all_a = np.delete(all_a,[3,6,9],axis=1)
     return all_a
@@ -112,10 +80,39 @@ array_ids_and_years=np.concatenate((a07,a08),axis=0)
 #create a df so you know the column names
 column_names = ['year', 'buyer_id_bt', 'target_id_bt', 'buyer_id_bdot_tdot', 'target_id_bdot_tdot',
                 'buyer_id_b_tdot', 'target_id_b_tdot','buyer_id_bdot_t', 'target_id_bdot_t']
-df_ids_and_years = pd.DataFrame(data = array_ids_and_years, 
+df_ids_and_years = pd.DataFrame(data = array_ids_and_years,
                   columns = column_names)
 ################################################################
 
+#######################################################
+# code in response to issue #42
+id_array_bt07 = a07[:, [0,1,2]]
+id_array_b_t_07 = a07[:, [0,3,4]]
+id_array_bt_07 = a07[:, [0,5,6]]
+id_array_b_t07 = a07[:, [0,7,8]]
+id_array_bt08 = a08[:, [0,1,2]]
+id_array_b_t_08 = a08[:, [0,3,4]]
+id_array_bt_08 = a08[:, [0,5,6]]
+id_array_b_t08 = a08[:, [0,7,8]]
+def create_vars(df, id_array):
+    '''
+    docstring
+    '''
+    df['scaled_pop'] = df['population_target']/1000000
+    df['scaled_price'] = df['price']/1000000
+    df['buyer_loc'] = df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
+    df['target_loc'] = df[['target_lat', 'target_long']].apply(tuple, axis=1)
+    df['distance_mi'] = df.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
+    id_df = pd.DataFrame(id_array, columns = ['year', 'buyer_id', 'target_id'])
+
+    X = pd.merge(id_df, df[['buyer_id', 'target_id', 'num_stations_buyer', 'corp_owner_buyer','scaled_price', 'hhi_target', 'scaled_pop','distance_mi']], on=['buyer_id', 'target_id'], how='left')
+
+    return(X)
+
+
+print(create_vars(df, id_array_bt_07))
+
+#############################################################
 
 #################################### Without transfers
 
@@ -252,4 +249,3 @@ def objective2(self, actual07, actual08, counter07, counter08):
 
 results = opt.minimize(objective2, params2, args = (actual07, actual08, counter07, counter08), method = 'Nelder-Mead', options = {'maxiter': 5000})
 print("With Transfers Results:", results)
-"""
