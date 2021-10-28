@@ -39,11 +39,11 @@ def create_array_ids(x):
     '''
     Parameters
     ----------
-    x : df07array or df07array (only put the array for a year)
+    x : df07array or df08array (only put the array for a year)
 
     Returns
     -------
-    arraies that include actual and counterfactual year and ids
+    arrays that include actual and counterfactual year and ids
 
     Idea
     -------
@@ -56,39 +56,36 @@ def create_array_ids(x):
     -------
     '''
     def array3(x):
-        a3=[]
-        for y in range(len(x[:,0])):
-            for i in range(len(x[:,1])):
-                    for j in range(i+1, len(x[:,1])):
-                        aa=[x[:,0][y].tolist()] + [x[:,1][i].tolist()] + [x[:,2][j].tolist()]
-                        a3.append(aa)
-            return np.array(a3)
-    a3=array3(x)         
+        k = x.shape[1] #ncol
+        a3=np.zeros((0, k), int)
+        for y in range(len(x)):
+            for i in range(len(x)):
+                    for j in range(i+1, len(x)):
+                        aa=[x[:,0][y], x[:,1][i], x[:,2][j]]
+                        a3 = np.append(a3, np.array([aa]), axis=0)
+            return a3
+    a3=array3(x)   
     
     def array4(x):
-        a4=[]
+        k = x.shape[1] #ncol
+        a4=np.zeros((0, k), int)
         for y in range(len(x[:,0])):
             for i in range(len(x[:,1])):
                     for j in range(i+1, len(x[:,1])):
-                        aa=[x[:,0][y].tolist()] + [x[:,1][j].tolist()] + [x[:,2][i].tolist()]
-                        a4.append(aa)
-            return np.array(a4)
+                        aa=[x[:,0][y], x[:,1][j], x[:,2][i]]
+                        a4 = np.append(a4, np.array([aa]), axis=0)
+            return a4
     a4=array4(x)
     
-    def array1(a3,a4):
-        a1=[a3[:,0].tolist()] + [a3[:,1].tolist()] + [a4[:,2].tolist()]
-        a1=np.array(a1)
-        return a1
-    a1=array1(a3,a4).T
+    a1=[a3[:,0].tolist()] + [a3[:,1].tolist()] + [a4[:,2].tolist()]
+    a1=np.array(a1).T
     
-    def array2(a3,a4):
-        a2=[a3[:,0].tolist()] + [a4[:,1].tolist()] + [a3[:,2].tolist()]
-        a2=np.array(a2)
-        return a2
-    a2=array2(a3,a4).T
+    a2=[a3[:,0].tolist()] + [a4[:,1].tolist()] + [a3[:,2].tolist()]
+    a2=np.array(a2).T
     
     all_a = np.concatenate((a1, a2, a3, a4),axis=1)
-    all_a = np.delete((all_a),[3,6,9],axis=1)
+    all_a = np.delete(all_a,[3,6,9],axis=1)
+    
     return all_a
 
 #set up arries for the function
@@ -103,7 +100,7 @@ a08=create_array_ids(df08array)
 array_ids_and_years=np.concatenate((a07,a08),axis=0)
 
 #create a df so you know the column names
-column_names = ['year', 'buyer_id_bt', 'target_id_b_t', 'buyer_id_bdot_tdot', 'target_id_bdot_tdot',
+column_names = ['year', 'buyer_id_bt', 'target_id_bt', 'buyer_id_bdot_tdot', 'target_id_bdot_tdot',
                 'buyer_id_b_tdot', 'target_id_b_tdot','buyer_id_bdot_t', 'target_id_bdot_t']
 df_ids_and_years = pd.DataFrame(data = array_ids_and_years, 
                   columns = column_names)
