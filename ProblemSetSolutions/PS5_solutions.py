@@ -32,6 +32,63 @@ counterfactuals['buyer_loc'] = counterfactuals[['buyer_lat', 'buyer_long']].appl
 counterfactuals['target_loc'] = counterfactuals[['target_lat', 'target_long']].apply(tuple, axis=1)
 counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
 
+
+################################################################
+#Codes in response to "PS5 solutions: make arrays of matches"
+def create_array_ids(x):
+    '''
+    args
+    ----------
+    x : df07array or df08array (only put the array for a year)
+
+    Returns
+    -------
+    arrays that include actual and counterfactual year and ids
+    actual ids: 
+        array1: (b, t)
+        array2: (b', t')
+    counterfactual ids:
+        array3: (b, t')
+        array4: (b', t)
+    '''
+    k = x.shape[1] #ncol
+    a1=np.zeros((0, k), int) #for array 1
+    a2=np.zeros((0, k), int) #for array 2
+    a3=np.zeros((0, k), int) #for array 3
+    a4=np.zeros((0, k), int) #for array 4
+    for i in range(len(x)):
+        for j in range(i+1, len(x)):
+            aa=[x[:,0][i], x[:,1][i], x[:,2][j]]
+            a3 = np.append(a3, np.array([aa]), axis=0)
+            bb=[x[:,0][i], x[:,1][j], x[:,2][i]]
+            a4 = np.append(a4, np.array([bb]), axis=0)
+            cc=[x[:,0][i], x[:,1][i], x[:,2][i]]
+            a1 = np.append(a1, np.array([cc]), axis=0)
+            dd=[x[:,0][i], x[:,1][j], x[:,2][j]]
+            a2 = np.append(a2, np.array([dd]), axis=0)        
+    all_a = np.concatenate((a1, a2, a3, a4),axis=1)
+    all_a = np.delete(all_a,[3,6,9],axis=1)
+    return all_a
+
+#set up arries for the function
+df07array=np.array(df07[['year', 'buyer_id','target_id']])
+df08array=np.array(df08[['year', 'buyer_id','target_id']])
+
+#run the function by year
+a07=create_array_ids(df07array)
+a08=create_array_ids(df08array)
+
+#array combinations of buyers and targets
+array_ids_and_years=np.concatenate((a07,a08),axis=0)
+
+#create a df so you know the column names
+column_names = ['year', 'buyer_id_bt', 'target_id_bt', 'buyer_id_bdot_tdot', 'target_id_bdot_tdot',
+                'buyer_id_b_tdot', 'target_id_b_tdot','buyer_id_bdot_t', 'target_id_bdot_t']
+df_ids_and_years = pd.DataFrame(data = array_ids_and_years, 
+                  columns = column_names)
+################################################################
+
+
 #################################### Without transfers
 
 # I believe this section works
