@@ -47,7 +47,7 @@ def create_array_ids(x):
     actual ids: 
         array1: (b, t)
         array2: (b', t')
-    counterfactual ids: 
+    counterfactual ids:
         array3: (b, t')
         array4: (b', t)
     '''
