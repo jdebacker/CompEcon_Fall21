@@ -37,55 +37,37 @@ counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row[
 #Codes in response to "PS5 solutions: make arrays of matches"
 def create_array_ids(x):
     '''
-    Parameters
+    args
     ----------
     x : df07array or df08array (only put the array for a year)
 
     Returns
     -------
     arrays that include actual and counterfactual year and ids
-
-    Idea
-    -------
-    Nested for loops to create combinations of buyers and targets.
-    Equation: f(b,t) + f(b',t') > f(b,t') + f(b',t)
-    array1: returns year and ids for b, t
-    array2: returns year and ids for b', t'
-    array3: returns year and ids for b, t'
-    array4: returns year and ids for b', t    
-    -------
+    actual ids: 
+        array1: (b, t)
+        array2: (b', t')
+    counterfactual ids: 
+        array3: (b, t')
+        array4: (b', t)
     '''
-    def array3(x):
-        k = x.shape[1] #ncol
-        a3=np.zeros((0, k), int)
-        for y in range(len(x)):
-            for i in range(len(x)):
-                    for j in range(i+1, len(x)):
-                        aa=[x[:,0][y], x[:,1][i], x[:,2][j]]
-                        a3 = np.append(a3, np.array([aa]), axis=0)
-            return a3
-    a3=array3(x)   
-    
-    def array4(x):
-        k = x.shape[1] #ncol
-        a4=np.zeros((0, k), int)
-        for y in range(len(x[:,0])):
-            for i in range(len(x[:,1])):
-                    for j in range(i+1, len(x[:,1])):
-                        aa=[x[:,0][y], x[:,1][j], x[:,2][i]]
-                        a4 = np.append(a4, np.array([aa]), axis=0)
-            return a4
-    a4=array4(x)
-    
-    a1=[a3[:,0].tolist()] + [a3[:,1].tolist()] + [a4[:,2].tolist()]
-    a1=np.array(a1).T
-    
-    a2=[a3[:,0].tolist()] + [a4[:,1].tolist()] + [a3[:,2].tolist()]
-    a2=np.array(a2).T
-    
+    k = x.shape[1] #ncol
+    a1=np.zeros((0, k), int) #for array 1
+    a2=np.zeros((0, k), int) #for array 2
+    a3=np.zeros((0, k), int) #for array 3
+    a4=np.zeros((0, k), int) #for array 4
+    for i in range(len(x)):
+        for j in range(i+1, len(x)):
+            aa=[x[:,0][i], x[:,1][i], x[:,2][j]]
+            a3 = np.append(a3, np.array([aa]), axis=0)
+            bb=[x[:,0][i], x[:,1][j], x[:,2][i]]
+            a4 = np.append(a4, np.array([bb]), axis=0)
+            cc=[x[:,0][i], x[:,1][i], x[:,2][i]]
+            a1 = np.append(a1, np.array([cc]), axis=0)
+            dd=[x[:,0][i], x[:,1][j], x[:,2][j]]
+            a2 = np.append(a2, np.array([dd]), axis=0)        
     all_a = np.concatenate((a1, a2, a3, a4),axis=1)
     all_a = np.delete(all_a,[3,6,9],axis=1)
-    
     return all_a
 
 #set up arries for the function
