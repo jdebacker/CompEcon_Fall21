@@ -9,9 +9,34 @@ base_dir = os.path.dirname(os.path.dirname(__file__))
 data_dir = os.path.join(base_dir, 'Matching', 'radio_merger_data.csv')
 print(data_dir)
 # This section works
-filepath= os.path.join("..","Matching","radio_merger_data.csv")
+filepath= os.path.join("..", "Matching","radio_merger_data.csv")
 df = pd.read_csv(filepath)
 
+def vars(df):
+    '''
+    docstring
+    '''
+    df['scaled_pop'] = df['population_target']/1000000
+    df['scaled_price'] = df['price']/1000000
+
+    for i in range(len(df)):
+        for j in range(i+1, len(df)):
+            df['distancebt'] = df.apply(lambda row: distance(row[['buyer_lat'][i],['buyer_long'][i]], row[['target_lat'][i],['target_long'][i]]).miles, axis=1)
+            df['distancebt_'] = df.apply(lambda row: distance(row[['buyer_lat'][i],['buyer_long'][i]], row[['target_lat'][j],['target_long'][j]]).miles, axis=1)
+            '''
+            distancebt = distance((df['buyer_lat'][i], df['buyer_long'][i]), (row['target_lat'][i],row['target_long'][i])).miles
+            df.at[index, 'distancebt'] = distancebt
+            distanceb_t_ = distance((row['buyer_lat'][index + 1], row['buyer_long'][index + 1]), (row['target_lat'][index + 1],row['target_long'][index + 1])).miles
+            df.at[index, 'distanceb_t_'] = distanceb_t_
+            distanceb_t = distance((row['buyer_lat'][index + 1], row['buyer_long'][index + 1]), (row['target_lat'][index],row['target_long'][index])).miles
+            df.at[index, 'distanceb_t'] = distanceb_t
+            distancebt_ = distance((row['buyer_lat'][index], row['buyer_long'][index]), (row['target_lat'][index + 1],row['target_long'][index + 1])).miles
+            df.at[index, 'distancebt_'] = distancebt_
+            '''
+
+test = vars(df)
+
+"""
 df['scaled_pop'] = df['population_target']/1000000
 df['scaled_price'] = df['price']/1000000
 
@@ -170,3 +195,4 @@ def objective2(self, actual07, actual08, counter07, counter08):
 
 results = opt.minimize(objective2, params2, args = (actual07, actual08, counter07, counter08), method = 'Nelder-Mead', options = {'maxiter': 5000})
 print("With Transfers Results:", results)
+"""
