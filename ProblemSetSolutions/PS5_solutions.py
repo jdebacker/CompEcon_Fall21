@@ -9,8 +9,8 @@ base_dir = os.path.dirname(os.path.dirname(__file__))
 data_dir = os.path.join(base_dir, 'Matching', 'radio_merger_data.csv')
 print(data_dir)
 # This section works
-df = pd.read_csv(data_dir)
-
+filepath= os.path.join("..","Matching","radio_merger_data.csv")
+df = pd.read_csv(filepath)
 
 df['scaled_pop'] = df['population_target']/1000000
 df['scaled_price'] = df['price']/1000000
