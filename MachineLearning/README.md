@@ -27,9 +27,16 @@ This module of the course covers the basics of machine learning, its application
       * ["Deep Equilibrium Nets"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3393482)
       * ["Deep Equilibrium Nets and Deep Structural Estimation"](https://github.com/dseconf/DSE2021/tree/master/17_DEQN_Scheidegger)
 
+## 3. Notebooks illustrating machine learning tools in Python
+* [Model Fitting and Validation](https://github.com/jdebacker/CompEcon_Fall21/blob/main/MachineLearning/FittingValidation.ipynb)
+* [Model Selection](https://github.com/jdebacker/CompEcon_Fall21/blob/main/MachineLearning/ModelSelection.ipynb)
+* [Regression Trees](https://github.com/jdebacker/CompEcon_Fall21/blob/main/MachineLearning/RegressionTrees.ipynb)
 
-## 3. Useful Links
+## 4. Problem Set
+* [PS \#6](https://github.com/jdebacker/CompEcon_Fall21/blob/main/MachineLearning/PS6.pdf)
+* [`biden.csv`](https://github.com/jdebacker/CompEcon_Fall21/blob/main/MachineLearning/biden.csv)
 
+## 5. Useful Links
 * Python:
   * [Scikit-Learn](https://scikit-learn.org/stable/)
   * [EconML](https://github.com/microsoft/EconML) (for causal inference ML methods in Python)
