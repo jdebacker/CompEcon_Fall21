@@ -85,57 +85,45 @@ df_ids_and_years = pd.DataFrame(data = array_ids_and_years,
 ################################################################
 
 #######################################################
-# code in response to issue #42
+# code for condensed create_vars function that we can call 4 times 
 
-def create_vars(df, df_ids_and_years):
+def create_x(merger_df, id_array):
     '''
-    docstring
+    Args:
+        merger_df: original dataframe with matches and match characteristics
+        id_array: array with all matches and counterfactuals for years 2007 and 2008; 
+            will specify which pairs needed (either real or counterfactual)
+    Returns: 
+        dframe: dataframe of specified buyer and target pairs with characteristics and calculated variables
     '''
-    df['scaled_pop'] = df['population_target']/1000000
-    df['scaled_price'] = df['price']/1000000
-    df['buyer_loc'] = df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
-    df['target_loc'] = df[['target_lat', 'target_long']].apply(tuple, axis=1)
+    #create additional variables for the X matrix
+    merger_df['scaled_pop'] = merger_df['population_target']/1000000
+    merger_df['scaled_price'] = merger_df['price']/1000000
+    merger_df['buyer_loc'] = merger_df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
+    merger_df['target_loc'] = merger_df[['target_lat', 'target_long']].apply(tuple, axis=1)
+    
+    #turn id_array into a dataframe
+    id=pd.DataFrame(id_array, columns=['year', 'buyer_id', 'target_id'])
+    
+    #create buyer columns
+    i=merger_df[['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_buyer', 'corp_owner_buyer', 'buyer_loc']]
+    #create seller columns
+    j=merger_df[['year', 'target_id', 'target_lat', 'target_long', 'scaled_price', 'hhi_target', 'scaled_pop', 'target_loc']]
 
-    id1=pd.DataFrame(array_ids_and_years[:, [0,1,2]], columns=['year', 'buyer_id', 'target_id'])
-    id2=pd.DataFrame(array_ids_and_years[:, [0,3,4]], columns=['year', 'buyer_id', 'target_id'])
-    id3=pd.DataFrame(array_ids_and_years[:, [0,5,6]], columns=['year', 'buyer_id', 'target_id'])
-    id4=pd.DataFrame(array_ids_and_years[:, [0,7,8]], columns=['year', 'buyer_id', 'target_id'])
+    #merge buyer and target characteristics from dataframe onto id dataframe by year, buyerid, and targetid 
+    df_buyer = pd.merge(id, i, on=['year','buyer_id'], how='left')
+    df_target = pd.merge(id, j, on=['year','target_id'], how='left')
+    dframe = pd.concat([df_buyer, df_target], axis=1)
+    
+    #add distance variable
+    dframe['distance_mi'] = dframe.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
 
-    #buyer cols
-    i=df[['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_buyer', 'corp_owner_buyer', 'buyer_loc']]
-    #seller cols
-    j=df[['year', 'target_id', 'target_lat', 'target_long', 'scaled_price', 'hhi_target', 'scaled_pop', 'target_loc']]
+    return(dframe)
 
-    df1i = pd.merge(id1, i, on=['year','buyer_id'], how='left')
-    df1j = pd.merge(id1, j, on=['year','target_id'], how='left')
-
-    df2i = pd.merge(id2, i, on=['year','buyer_id'], how='left')
-    df2j = pd.merge(id2, j, on=['year','target_id'], how='left')
-
-    df3i = pd.merge(id3, i, on=['year','buyer_id'], how='left')
-    df3j = pd.merge(id3, j, on=['year','target_id'], how='left')
-
-    df4i = pd.merge(id4, i, on=['year','buyer_id'], how='left')
-    df4j = pd.merge(id4, j, on=['year','target_id'], how='left')
-
-    df1 = pd.concat([df1i, df1j], axis=1)
-    df1['distance_mi'] = df1.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
-
-    df2 = pd.concat([df2i, df2j], axis=1)
-    df2['distance_mi'] = df2.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
-
-    df3 = pd.concat([df3i, df3j], axis=1)
-    df3['distance_mi'] = df3.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
-
-    df4 = pd.concat([df4i, df4j], axis=1)
-    df4['distance_mi'] = df4.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
-
-    x=pd.concat([df1,df2,df3,df4], axis=1)
-
-    return(x)
-
-
-df_all = create_vars(df, df_ids_and_years)
+df_1 = create_x(df, array_ids_and_years[:, [0,1,2]])
+df_2 = create_x(df, array_ids_and_years[:, [0,3,4]])
+df_3 = create_x(df, array_ids_and_years[:, [0,5,6]])
+df_4 = create_x(df, array_ids_and_years[:, [0,7,8]])
 
 
 #############################################################
