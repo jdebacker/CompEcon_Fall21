@@ -103,8 +103,8 @@ Class Participation                |   10   |    10.0%   |
 | Nov. 2   | T   | Dynamic Programming                       | PS #5  |
 | Nov. 9   | Th  | Dynamic Programming |  PS #6       |
 | Nov. 11  | T   | Dynamic Programming     |      |
-| Nov. 16  | Th  | Discrete Choice Dynamic Programming                     |   PS #7     |
-| Nov. 18  | T   | No class               |        |
+| Nov. 16  | Th  | Discrete Choice Dynamic Programming                     |        |
+| Nov. 18  | T   | TBD              |     PS #7   |
 | Nov. 23  | Th  | Overlapping Generations Models                  |        |
 | Nov. 25  | Th  | No class, Thanksgiving              |        |
 | Nov. 30  | T   | Overlapping Generations Models      |  |
