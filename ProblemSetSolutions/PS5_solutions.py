@@ -3,23 +3,19 @@ import scipy.optimize as opt
 import scipy.stats as stats
 import pandas as pd
 from geopy.distance import distance
-import os 
+import os
 
+base_dir = os.path.dirname(os.path.dirname(__file__))
+data_dir = os.path.join(base_dir, 'Matching', 'radio_merger_data.csv')
+print(data_dir)
 # This section works
-filepath= os.path.join("..","Matching","radio_merger_data.csv")
+filepath= os.path.join("..", "Matching","radio_merger_data.csv")
 df = pd.read_csv(filepath)
-
-df['scaled_pop'] = df['population_target']/1000000
-df['scaled_price'] = df['price']/1000000
-
-df['buyer_loc'] = df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
-df['target_loc'] = df[['target_lat', 'target_long']].apply(tuple, axis=1)
-df['distance_mi'] = df.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
 
 df07 = df.loc[df['year'] == 2007]
 df08 = df.loc[df['year'] == 2008]
 years = [df07, df08]
-
+'''
 Buy = ['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_buyer', 'corp_owner_buyer']
 Target = ['target_id', 'target_lat', 'target_long', 'scaled_price', 'hhi_target', 'scaled_pop']
 
@@ -31,6 +27,118 @@ counterfactuals = pd.DataFrame(counterfac, columns = Buy + Target)
 counterfactuals['buyer_loc'] = counterfactuals[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
 counterfactuals['target_loc'] = counterfactuals[['target_lat', 'target_long']].apply(tuple, axis=1)
 counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
+'''
+
+################################################################
+#Codes in response to "PS5 solutions: make arrays of matches"
+def create_array_ids(x):
+    '''
+    args
+    ----------
+    x : df07array or df08array (only put the array for a year)
+
+    Returns
+    -------
+    arrays that include actual and counterfactual year and ids
+    actual ids:
+        array1: (b, t)
+        array2: (b', t')
+    counterfactual ids:
+        array3: (b, t')
+        array4: (b', t)
+    '''
+    k = x.shape[1] #ncol
+    a1=np.zeros((0, k), int) #for array 1
+    a2=np.zeros((0, k), int) #for array 2
+    a3=np.zeros((0, k), int) #for array 3
+    a4=np.zeros((0, k), int) #for array 4
+    for i in range(len(x)):
+        for j in range(i+1, len(x)):
+            aa=[x[:,0][i], x[:,1][i], x[:,2][j]]
+            a3 = np.append(a3, np.array([aa]), axis=0)
+            bb=[x[:,0][i], x[:,1][j], x[:,2][i]]
+            a4 = np.append(a4, np.array([bb]), axis=0)
+            cc=[x[:,0][i], x[:,1][i], x[:,2][i]]
+            a1 = np.append(a1, np.array([cc]), axis=0)
+            dd=[x[:,0][i], x[:,1][j], x[:,2][j]]
+            a2 = np.append(a2, np.array([dd]), axis=0)
+    all_a = np.concatenate((a1, a2, a3, a4),axis=1)
+    all_a = np.delete(all_a,[3,6,9],axis=1)
+    return all_a
+
+#set up arries for the function
+df07array=np.array(df07[['year', 'buyer_id','target_id']])
+df08array=np.array(df08[['year', 'buyer_id','target_id']])
+
+#run the function by year
+a07=create_array_ids(df07array)
+a08=create_array_ids(df08array)
+
+#array combinations of buyers and targets
+array_ids_and_years=np.concatenate((a07,a08),axis=0)
+
+#create a df so you know the column names
+column_names = ['year', 'buyer_id_bt', 'target_id_bt', 'buyer_id_bdot_tdot', 'target_id_bdot_tdot',
+                'buyer_id_b_tdot', 'target_id_b_tdot','buyer_id_bdot_t', 'target_id_bdot_t']
+df_ids_and_years = pd.DataFrame(data = array_ids_and_years,
+                  columns = column_names)
+################################################################
+
+#######################################################
+# code in response to issue #42
+
+def create_vars(df, df_ids_and_years):
+    '''
+    docstring
+    '''
+    df['scaled_pop'] = df['population_target']/1000000
+    df['scaled_price'] = df['price']/1000000
+    df['buyer_loc'] = df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
+    df['target_loc'] = df[['target_lat', 'target_long']].apply(tuple, axis=1)
+
+    id1=pd.DataFrame(array_ids_and_years[:, [0,1,2]], columns=['year', 'buyer_id', 'target_id'])
+    id2=pd.DataFrame(array_ids_and_years[:, [0,3,4]], columns=['year', 'buyer_id', 'target_id'])
+    id3=pd.DataFrame(array_ids_and_years[:, [0,5,6]], columns=['year', 'buyer_id', 'target_id'])
+    id4=pd.DataFrame(array_ids_and_years[:, [0,7,8]], columns=['year', 'buyer_id', 'target_id'])
+
+    #buyer cols
+    i=df[['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_buyer', 'corp_owner_buyer', 'buyer_loc']]
+    #seller cols
+    j=df[['year', 'target_id', 'target_lat', 'target_long', 'scaled_price', 'hhi_target', 'scaled_pop', 'target_loc']]
+
+    df1i = pd.merge(id1, i, on=['year','buyer_id'], how='left')
+    df1j = pd.merge(id1, j, on=['year','target_id'], how='left')
+
+    df2i = pd.merge(id2, i, on=['year','buyer_id'], how='left')
+    df2j = pd.merge(id2, j, on=['year','target_id'], how='left')
+
+    df3i = pd.merge(id3, i, on=['year','buyer_id'], how='left')
+    df3j = pd.merge(id3, j, on=['year','target_id'], how='left')
+
+    df4i = pd.merge(id4, i, on=['year','buyer_id'], how='left')
+    df4j = pd.merge(id4, j, on=['year','target_id'], how='left')
+
+    df1 = pd.concat([df1i, df1j], axis=1)
+    df1['distance_mi'] = df1.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
+
+    df2 = pd.concat([df2i, df2j], axis=1)
+    df2['distance_mi'] = df2.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
+
+    df3 = pd.concat([df3i, df3j], axis=1)
+    df3['distance_mi'] = df3.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
+
+    df4 = pd.concat([df4i, df4j], axis=1)
+    df4['distance_mi'] = df4.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
+
+    x=pd.concat([df1,df2,df3,df4], axis=1)
+
+    return(x)
+
+
+df_all = create_vars(df, df_ids_and_years)
+
+
+#############################################################
 
 #################################### Without transfers
 
