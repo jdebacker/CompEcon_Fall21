@@ -99,19 +99,18 @@ Class Participation                |   10   |    10.0%   |
 | Oct. 19  | T   | Machine Learning     |   PS #4     |
 | Oct. 21  | Th  | Machine Learning     |  |
 | Oct. 26  | T   | Machine Learning                 |        |
-| Oct. 28  | Th  | Dynamic Programming                 |        |
+| Oct. 28  | Th  | Machine Learning                  |        |
 | Nov. 2   | T   | Dynamic Programming                       | PS #5  |
-| Nov. 9   | Th  | Discrete Choice Dynamic Programming |        |
-| Nov. 11  | T   | Computational Approaches to DPPs     | PS #6      |
-| Nov. 16  | Th  | Multiprocessing                     |        |
-| Nov. 18  | T   | Simulation Methods                  |        |
-| Nov. 23  | Th  | Simulation Methods                  |    PS #7    |
+| Nov. 9   | Th  | Dynamic Programming |  PS #6       |
+| Nov. 11  | T   | Dynamic Programming     |      |
+| Nov. 16  | Th  | Discrete Choice Dynamic Programming                     |        |
+| Nov. 18  | T   | TBD              |     PS #7   |
+| Nov. 23  | Th  | Overlapping Generations Models                  |        |
 | Nov. 25  | Th  | No class, Thanksgiving              |        |
 | Nov. 30  | T   | Overlapping Generations Models      |  |
-| Dec. 2   | T   | Overlapping Generations Models      | PS # 8       |
-| Dec. 5   | Th  | Overlapping Generations Models      |        |
+| Dec. 2   | Th   | Overlapping Generations Models      | PS # 8       |
 |          |     |                                     |        |
-| Dec. 10  | T   | No Final Exam - project due         | PS #9  |
+| Dec. 10  | F   | No Final Exam - project due         | PS #9  |
 
 
 ## Helpful Links ##
