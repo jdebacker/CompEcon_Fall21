@@ -5,8 +5,9 @@ This module of the course illustrates computational methods to solve continuous 
 * [Intro slides](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/Intro_Slides.pdf)
 * [Lecture Notes #1](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture1_Notes.pdf)
 
-
-## 2. Useful Links
+## 2. Problem Sets
+* [Problem Set \#7](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/PS7.pdf)
+## 3. Useful Links
 * [Numba](http://numba.pydata.org)
 * [Dask](https://dask.org)
 * [QuantEcon: Finite Markov Chains](https://lectures.quantecon.org/jl/finite_markov.html)
