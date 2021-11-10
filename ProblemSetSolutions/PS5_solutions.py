@@ -4,6 +4,7 @@ import scipy.stats as stats
 import pandas as pd
 from geopy.distance import distance
 import os
+from scipy.optimize import differential_evolution
 
 base_dir = os.path.dirname(os.path.dirname(__file__))
 data_dir = os.path.join(base_dir, 'Matching', 'radio_merger_data.csv')
@@ -121,12 +122,67 @@ def create_x(merger_df, id_array):
     return(dframe)
 
 df_1 = create_x(df, array_ids_and_years[:, [0,1,2]])
+df_1 = df_1.loc[:,~df_1.columns.duplicated()]
+df_1 = df_1.add_suffix('1') #take care of the same variable name problem when we concat
+
 df_2 = create_x(df, array_ids_and_years[:, [0,3,4]])
+df_2 = df_2.loc[:,~df_2.columns.duplicated()]
+df_2 = df_2.add_suffix('2')
+
 df_3 = create_x(df, array_ids_and_years[:, [0,5,6]])
+df_3 = df_3.loc[:,~df_3.columns.duplicated()]
+df_3 = df_3.add_suffix('3')
+
 df_4 = create_x(df, array_ids_and_years[:, [0,7,8]])
+df_4 = df_4.loc[:,~df_4.columns.duplicated()]
+df_4 = df_4.add_suffix('4')
+################################################################
 
+################################################################
+#payoff without transfers
 
-#############################################################
+#first combine the actual and conterfactual data for the payoff function
+df_all=pd.concat([df_1,df_2,df_3,df_4], axis=1)
+df=pd.concat([df_1,df_2,df_3,df_4], axis=1)
+
+#create the payoff function
+def payoff_without_transfers(df, parameters):
+    '''
+    Args:
+        df_all: data used for calculation. The actual and counter factual data must be in teh same row
+        parameters: initial parameter estimates for alpha and beta
+
+    Returns:
+        f: the payoff to the merger
+        
+    Model 1:
+    f(b; t) = num_stations_buyer_bm * population_target_tm 
+              + alpha * corp_owner_buyer_bm * population_target_tm 
+              + beta * distancebtm + error_btm
+    
+    '''
+    alpha = parameters[0]
+    beta = parameters[1]
+
+    f1 = df['num_stations_buyer1']*df['scaled_pop1'] + alpha * df['corp_owner_buyer1'] * df['scaled_pop1'] + beta * df['distance_mi1']
+    f2 = df['num_stations_buyer2']*df['scaled_pop2'] + alpha * df['corp_owner_buyer2'] * df['scaled_pop2'] + beta * df['distance_mi2']
+    f3 = df['num_stations_buyer3']*df['scaled_pop3'] + alpha * df['corp_owner_buyer3'] * df['scaled_pop3'] + beta * df['distance_mi3']
+    f4 = df['num_stations_buyer4']*df['scaled_pop4'] + alpha * df['corp_owner_buyer4'] * df['scaled_pop4'] + beta * df['distance_mi4']
+
+    #f (b,t) + f(bdot, tdot)  ≥ f(b, tdot) + f(bdot, t)
+    score = (f1+f2) > (f3+f4)
+    neg_total_score = score.sum()
+    return neg_total_score
+
+#Initial Guess
+initial_guess = (0.5, 0.5)
+a=payoff_without_transfers(df, initial_guess)
+fbt1 = opt.minimize(payoff_without_transfers, initial_guess, args=df, method = 'Nelder-Mead')
+
+set_bound = [(-0.5,0.5),(-0.5,0.5)]
+fbt1 = differential_evolution(payoff_without_transfers, set_bound, args=(df,))
+################################################################
+
 
 #################################### Without transfers
 
