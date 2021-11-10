@@ -177,10 +177,10 @@ def payoff_without_transfers(df, parameters):
 #Initial Guess
 initial_guess = (0.5, 0.5)
 a=payoff_without_transfers(df, initial_guess)
-fbt1 = opt.minimize(payoff_without_transfers, initial_guess, args=df, method = 'Nelder-Mead')
+parm_estimates = opt.minimize(payoff_without_transfers, initial_guess, args=df, method = 'Nelder-Mead')
 
 set_bound = [(-0.5,0.5),(-0.5,0.5)]
-fbt1 = differential_evolution(payoff_without_transfers, set_bound, args=(df,))
+parm_estimates = differential_evolution(payoff_without_transfers, set_bound, args=(df,))
 ################################################################
 
 
