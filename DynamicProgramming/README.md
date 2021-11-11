@@ -4,10 +4,15 @@ This module of the course illustrates computational methods to solve continuous 
 ## 1. Lecture Notes
 * [Intro slides](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/Intro_Slides.pdf)
 * [Lecture Notes #1](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture1_Notes.pdf)
+* [Lecture Notes #2](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture2_Notes.pdf)
 
-## 2. Problem Sets
-* [Problem Set \#7](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/PS7.pdf)
-## 3. Useful Links
+## 2. Notebooks
+* [VFI for the non-stochastic cake eating problem][https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/Cake.ipynb]
+* * [VFI for the non-stochastic cake eating problem, with interpolation][https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/CakeInterpolation.ipynb]
+* [PFI for the non-stochastic cake eating problem][https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/CakePFI.ipynb]
+## 3. Problem Sets
+* [Problem Set #7](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/PS7.pdf)
+## 4. Useful Links
 * [Numba](http://numba.pydata.org)
 * [Dask](https://dask.org)
 * [QuantEcon: Finite Markov Chains](https://lectures.quantecon.org/jl/finite_markov.html)
