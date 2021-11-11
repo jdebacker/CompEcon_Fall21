@@ -33,7 +33,7 @@ counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row[
 #Codes in response to "PS5 solutions: make arrays of matches"
 def create_array_ids(x):
     '''
-    args
+    Args
     ----------
     x : df07array or df08array (only put the array for a year)
 
