@@ -5,7 +5,7 @@ This module of the course illustrates computational methods to solve continuous 
 * [Intro slides](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/Intro_Slides.pdf)
 * [Lecture Notes #1](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture1_Notes.pdf) (2 period, T-period, infinite horizon)
 * [Lecture Notes #2](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture2_Notes.pdf) (stochastic DP problems)
-* [Lecture Notes #2](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture2_Notes.pdf) (discrete choice DP problems)
+* [Lecture Notes #3](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DP_Lecture3_Notes.pdf) (discrete choice DP problems)
 
 ## 2. Notebooks
 * [VFI for the non-stochastic cake eating problem](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/Cake.ipynb)
