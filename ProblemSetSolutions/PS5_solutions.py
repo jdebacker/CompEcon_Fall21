@@ -1,3 +1,4 @@
+#Import the packages we would use
 import numpy as np
 import scipy.optimize as opt
 import scipy.stats as stats
@@ -6,10 +7,12 @@ from geopy.distance import distance
 import os
 from scipy.optimize import differential_evolution
 
+#Importing the data file
 base_dir = os.path.dirname(os.path.dirname(__file__))
 data_dir = os.path.join(base_dir, 'Matching', 'radio_merger_data.csv')
 print(data_dir)
-# This section works
+
+#Importing the data file (This section works)
 filepath= os.path.join("..", "Matching","radio_merger_data.csv")
 df = pd.read_csv(filepath)
 
@@ -17,6 +20,7 @@ df07 = df.loc[df['year'] == 2007]
 df08 = df.loc[df['year'] == 2008]
 years = [df07, df08]
 '''
+We need actual and counterfactual data.
 Buy = ['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_buyer', 'corp_owner_buyer']
 Target = ['target_id', 'target_lat', 'target_long', 'scaled_price', 'hhi_target', 'scaled_pop']
 
@@ -25,6 +29,7 @@ counterfac = [x[Buy].iloc[i].values.tolist() + x[Target].iloc[j].values.tolist()
              for j in range(i + 1, len(x))]
 counterfactuals = pd.DataFrame(counterfac, columns = Buy + Target)
 
+We will use the longtitude and latitude to calculate the distance.
 counterfactuals['buyer_loc'] = counterfactuals[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
 counterfactuals['target_loc'] = counterfactuals[['target_lat', 'target_long']].apply(tuple, axis=1)
 counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row['buyer_loc'], row['target_loc']).miles, axis=1)
@@ -34,9 +39,10 @@ counterfactuals['distance_mi'] = counterfactuals.apply(lambda row: distance(row[
 #Codes in response to "PS5 solutions: make arrays of matches"
 def create_array_ids(x):
     '''
-    args
+    Args
     ----------
-    x : df07array or df08array (only put the array for a year)
+    x : df07array for the year 2007
+        df08array for the year 2008 (only put the array for a year)
 
     Returns
     -------
@@ -97,7 +103,7 @@ def create_x(merger_df, id_array):
     Returns: 
         dframe: dataframe of specified buyer and target pairs with characteristics and calculated variables
     '''
-    #create additional variables for the X matrix
+    #create additional variables for the X matrix inresponse to the question
     merger_df['scaled_pop'] = merger_df['population_target']/1000000
     merger_df['scaled_price'] = merger_df['price']/1000000
     merger_df['buyer_loc'] = merger_df[['buyer_lat', 'buyer_long']].apply(tuple, axis=1)
@@ -106,9 +112,9 @@ def create_x(merger_df, id_array):
     #turn id_array into a dataframe
     id=pd.DataFrame(id_array, columns=['year', 'buyer_id', 'target_id'])
     
-    #create buyer columns
+    #create buyer columns including locations and number of stations
     i=merger_df[['year', 'buyer_id', 'buyer_lat', 'buyer_long', 'num_stations_buyer', 'corp_owner_buyer', 'buyer_loc']]
-    #create seller columns
+    #create seller columns including locations, price, and hhi
     j=merger_df[['year', 'target_id', 'target_lat', 'target_long', 'scaled_price', 'hhi_target', 'scaled_pop', 'target_loc']]
 
     #merge buyer and target characteristics from dataframe onto id dataframe by year, buyerid, and targetid 
@@ -186,18 +192,18 @@ parm_estimates = differential_evolution(payoff_without_transfers, set_bound, arg
 
 #################################### Without transfers
 
-# I believe this section works
+# Define the payoff function (I believe this section works)
 
 def payoff(data, parameters):
     '''
     Args:
-        data: data used for calculation
+        data: actual and counterfactual data for buyers and targets
         parameters: initial parameter estimates for alpha and beta
 
     Returns:
         f: the payoff to the merger
     '''
-    # note no coef on the first term
+    # note: there is no coefficent for the first term
     alpha = parameters[0]
     beta = parameters[1]
 
@@ -207,7 +213,7 @@ def payoff(data, parameters):
 
 params = (0.5, 0.5)
 
-# actual payoffs
+# actual payoffs for year 2007 and 2008
 actual7 = pd.DataFrame(payoff(data = df07, parameters = params))
 actual8 = pd.DataFrame(payoff(data = df08, parameters = params))
 actual = pd.DataFrame(payoff(data=df, parameters = params), columns=['payoff'])
@@ -227,10 +233,10 @@ counter8 = counter8[counter8.index > 989]
 counter = pd.DataFrame(payoff(data=counterfactuals, parameters=params), columns=['payoff'])
 counterfactuals = pd.concat([counterfactuals, counter], axis=1)
 
-# this part doesn't work
+# Objective Function (this part doesn't work)
 def objective(self, actual, counter):
     '''
-    A function that returns the maximum score estimator
+    A function that returns the maximum score estimator(MSE)
 
     Args:
         actual: df of actual matches, including payoffs
@@ -257,7 +263,7 @@ results = opt.minimize(objective, params, args = (df, counterfactuals), method =
 print("Without Transfers Results:", results)
 
 ############################# With transfers
-# I think this works
+# Payoff transfer function (I think this works)
 
 def payofftransfers(data, parameters):
     '''
@@ -279,10 +285,10 @@ def payofftransfers(data, parameters):
 
 params2 = (0.5, 0.5, 0.5, 0.5)
 
-# actual payoffs
+# actual payoffs for year 2007
 actual07 = pd.DataFrame(payofftransfers(data = df07, parameters = params2))
 
-# actual 2008 payoffs
+# actual 2008 payoffs for year 2008
 actual08 = pd.DataFrame(payofftransfers(data = df08, parameters = params2))
 
 # counterfactual 2007 payoffs
