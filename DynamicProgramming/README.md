@@ -15,9 +15,11 @@ This module of the course illustrates computational methods to solve continuous 
 * [Example of using parallel processing and PFI for the non-stochastic cake eating problem](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/CakePFI_multiprocessing.ipynb)
 * [Using Numba for DPPs](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/DPPwNumba.ipynb)
 * [Approximating AR(1) processes with finite Markov chains](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/ApproxAR.ipynb)
+* [Discrete choice cake eating problem](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/CakeDiscrete.ipynb)
 
 ## 3. Problem Sets
 * [Problem Set #7](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/PS7.pdf)
+* [Problem Set #8](https://github.com/jdebacker/CompEcon_Fall21/blob/main/DynamicProgramming/PS8.pdf)
 ## 4. Useful Links
 * [Numba](http://numba.pydata.org)
 * [Dask](https://dask.org)
