@@ -1,14 +1,16 @@
 # Import the packages we would use
 import numpy as np
-import scipy.optimize as opt
-import scipy.stats as stats
 import pandas as pd
+import scipy.optimize as opt
 from scipy.stats import norm
 from geopy.distance import distance
 import os
 import time
-from tabulate import tabulate
-from scipy.optimize import differential_evolution
+
+
+""""
+Define function to use for estimation
+"""
 
 
 def create_array_ids(x):
@@ -54,7 +56,7 @@ def create_array_ids(x):
             b_target = set(df.target_id.values)
             for t in b_target:
                 # get buyers b' who are not buyer b
-                for bp in buyers_in_year[buyers_in_year.index(b) + 1 :]:
+                for bp in buyers_in_year[buyers_in_year.index(b) + 1:]:
                     df = df = x[(x.buyer_id == bp) & (x.year == y)]
                     # get targets of buyer b'
                     bp_target = set(df.target_id.values)
@@ -99,8 +101,10 @@ def create_x(merger_df, id_array):
             "corp_owner_buyer",
         ]
     ].copy()
-    # in case buyers are repeated (i.e., matches are one to many),  drop any duplicates
-    buyer_chars.drop_duplicates(subset=["buyer_id", "year"], keep="first", inplace=True)
+    # in case buyers are repeated (i.e., matches are one to many),
+    # drop any duplicates
+    buyer_chars.drop_duplicates(
+        subset=["buyer_id", "year"], keep="first", inplace=True)
     target_chars = merger_df[
         [
             "year",
@@ -124,7 +128,8 @@ def create_x(merger_df, id_array):
         columns=["year", "buyer_id", "target_id"],
     )
 
-    # Merge buyer and target characteristics onto dataframes with buyer and target ids
+    # Merge buyer and target characteristics onto dataframes with buyer
+    # and target ids
     df = df.merge(
         buyer_chars,
         how="left",
@@ -140,7 +145,8 @@ def create_x(merger_df, id_array):
         copy=True,
     )
 
-    # create additional variables for the X matrix in response to the question
+    # create additional variables for the X matrix in response to the
+    # question
     df["pop"] = df["population_target"] / 1000000
     df["price"] = df["price"] / 1000000
     df["stations_pop"] = df["num_stations_buyer"] * df["pop"]
@@ -162,7 +168,8 @@ def payoff(parameters, df, covariates):
     Args:
         parameters (Numpy array): values of parameters in model
         df (Pandas DataFrame): data of buyer, target, and match characteristics
-        covariates (list): list of strings with names of covariates to use in the payoff function
+        covariates (list): list of strings with names of covariates to
+            use in the payoff function
 
     Returns:
         f (Numpy array): vectors with payoffs to the mergers in df
@@ -180,9 +187,11 @@ def Qscore(coeffs, data_dict, covariates, use_price, smoothed_estimator):
 
     Args:
         parameters (Numpy array): guesses for coefficients on covariates
-        data_dict (dictionary): keys represent buyer-target pairs (e.g, (b,t), (b',t')), values are
-                     dataframes with buyer, target, match characteristics
-        covariates (list): list of strings with names of covariates to use in the payoff function
+        data_dict (dictionary): keys represent buyer-target pairs
+            (e.g, (b,t), (b',t')), values are
+            dataframes with buyer, target, match characteristics
+        covariates (list): list of strings with names of covariates to
+            use in the payoff function
         use_price (boolean): indicator for use estimator with prices
         smoothed_estimator (boolean): indicator for use smoothed MSE
 
@@ -201,7 +210,8 @@ def Qscore(coeffs, data_dict, covariates, use_price, smoothed_estimator):
             )
             ineq = norm.cdf(value.astype(float), scale=1 / 30)
         else:
-            coeffs = np.insert(coeffs, 0, 1.0)  # 1st covariate has coeff of one
+            # 1st covariate has coeff of one
+            coeffs = np.insert(coeffs, 0, 1.0)
             value = (
                 payoff(coeffs, data_dict["bt"], covariates)
                 + payoff(coeffs, data_dict["bptp"], covariates)
@@ -222,7 +232,8 @@ def Qscore(coeffs, data_dict, covariates, use_price, smoothed_estimator):
                 >= payoff(coeffs, data_dict["bpt"], covariates)
             )
         else:
-            coeffs = np.insert(coeffs, 0, 1.0)  # 1st covariate has coeff of one
+            # 1st covariate has coeff of one
+            coeffs = np.insert(coeffs, 0, 1.0)
             ineq = (
                 payoff(coeffs, data_dict["bt"], covariates)
                 + payoff(coeffs, data_dict["bptp"], covariates)
@@ -253,10 +264,13 @@ def estimate_mse(
     This function calls the optimizer to estimate the Maximum Score Estimator.
 
     Args:
-        init_params parameters (Numpy array): guesses for coefficients on covariates
-        data_dict (dictionary): keys represent buyer-target pairs (e.g, (b,t), (b',t')), values are
-                     dataframes with buyer, target, match characteristics
-        covariates (list): list of strings with names of covariates to use in the payoff function
+        init_params parameters (Numpy array): guesses for coefficients
+            on covariates
+        data_dict (dictionary): keys represent buyer-target pairs
+            (e.g, (b,t), (b',t')), values are
+            dataframes with buyer, target, match characteristics
+        covariates (list): list of strings with names of covariates to
+            use in the payoff function
         use_price (boolean): indicator for use estimator with prices
         smoothed_estimator (boolean): indicator for use smoothed MSE
         method (string): minimization method to use (NM = Nelder-Mead,
@@ -340,9 +354,11 @@ def merger_estimate(
     Interface function to estimate model of radio mergers.
 
     Args:
-        init_params parameters (Numpy array): guesses for coefficients on covariates
+        init_params parameters (Numpy array): guesses for coefficients
+            on covariates
         data (Pandas DataFrame): raw data with mergers
-        covariates (list): list of strings with names of covariates to use in the payoff function
+        covariates (list): list of strings with names of covariates to
+            use in the payoff function
         use_price (boolean): indicator for use estimator with prices
         smoothed_estimator (boolean): indicator for use smoothed MSE
         method (string): minimization method to use (NM = Nelder-Mead,
@@ -374,7 +390,8 @@ mse_results = []
 
 # Model 1
 covariate_list1 = ["stations_pop", "corp_owner_pop", "distance"]
-init_guesses = np.array([7.54, 2.28])  # first coefficient will be normalized to 1
+# Note, only specify two since first coefficient will be normalized to 1
+init_guesses = np.array([7.54, 2.28])
 results = merger_estimate(
     init_guesses,
     covariate_list1,
@@ -386,9 +403,10 @@ results = merger_estimate(
 mse_results.append(results)
 # Model 2
 covariate_list2 = ["stations_pop", "corp_owner_pop", "distance", "hhi_target", "price"]
+# Note, only specify 4 since last coeff on price normalized to -1
 init_guesses = np.array(
     [-0.002, 7.54, 2.28, -0.18]
-)  # last coeff on price normalized to -1
+)
 results = merger_estimate(
     init_guesses,
     covariate_list2,
