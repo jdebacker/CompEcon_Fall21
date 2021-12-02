@@ -7,7 +7,9 @@ This module of the course covers the theory and computation of general equilibri
 * [DeBacker and Evans Chapter 4](https://github.com/jdebacker/CompEcon_Fall21/blob/main/OverlappingGenerations/Chapter4.pdf)
 * [DeBacker and Evans Chapter 8](https://github.com/jdebacker/CompEcon_Fall21/blob/main/OverlappingGenerations/Chapter8.pdf)
 
-## 2. References
+## 2. Problem Set
+* [Problem Set 9](https://github.com/jdebacker/CompEcon_Fall21/blob/main/OverlappingGenerations/PS9.pdf)
+## 3. References
 * [A history of heterogeneous agent macro models](https://beatricecherrier.wordpress.com/2018/11/28/heterogeneous-agent-macroeconomics-has-a-long-history-and-it-raises-many-questions/)
 * Immportant OG models:
   * [Samuelson (JPE, 1958)](https://www.jstor.org/stable/1826989?seq=1#metadata_info_tab_contents)
